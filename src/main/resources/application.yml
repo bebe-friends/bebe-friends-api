@@ -6,16 +6,26 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
-    datasource:
-      url: jdbc:h2:mem:test
-    h2:
-      console:
-        enabled: true
-        path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:test
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   security:
     user:
       name: user
       password: sample
+    oauth2:
+      resourceserver:
+        jwt:
+          audiences:
+            - ${FIREBASE_PROJECT_ID}
+          issuer-uri: https://securetoken.google.com/${FIREBASE_PROJECT_ID}
+          jwk-set-uri: https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
+          public-key-location: https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
+          jws-algorithms: RS256
+          principal-claim-name: sub
 
 springdoc:
   swagger-ui:
