@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+actor Admin
+actor Parent
+
+package community {
+  package posting {
+    usecase (글 작성) as post
+    usecase (글, 작성자 차단/해제) as deny
+    usecase (글 목록 조회) as findPosting
+    usecase (내 글 목록 조회) as findMyPosting
+    usecase (글 상세 조회) as getPosting
+    usecase (댓글 목록 조회) as findPostsConnents
+    Parent --> posting
+    getPosting ..>findPostsConnents
+  }
+  package category {
+    usecase (카테고리 추가) as addCategory
+    usecase (카테고리 목록 조회) as findCategory
+  }
+  findPosting ..> findCategory: include
+  findMyPosting ..> findPosting: include
+}
+Admin --> community
+@enduml
