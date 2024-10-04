@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+package role {
+  actor Admin
+  actor Parent
+}
+
+package product {
+  package childProduct {
+    usecase (용품 추가) as postProduct
+    usecase (용품 카테고리 추가) as postProductCategory
+
+    Admin -> childProduct #red
+  }
+
+  package hotdeal {
+    usecase (핫딜 추가) as postHotDeal
+    usecase (핫딜 목록 조회) as findHotDeal
+    usecase (핫딜 단일 상세 조회) as getHotDealById
+    usecase (제품 핫딜 기록 조회) as findHotDealByProduct
+    usecase (핫딜 댓글 조회) as findHotDealComment
+
+    Admin --> hotdeal #red
+    Parent --> findHotDeal #blue
+    Parent --> getHotDealById #blue
+
+    getHotDealById ..> findHotDealByProduct: include
+    getHotDealById ..> findHotDealComment
+  }
+}
+
+package notification {
+  usecase (알림발송) as notify
+  postHotDeal ..> notify: include
+  usecase (알림조회) as receiveNotification
+  Parent --> receiveNotification #blue
+}
+
+Admin --> notification
+@enduml

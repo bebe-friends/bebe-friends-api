@@ -1,0 +1,39 @@
+@startuml
+actor Parent
+App -> App: secure storage 조회
+App --> App: firebaseIdToken
+App -> Server: POST /api/v1/auth/firebase/authorize 로그인 \nAuthorization: Bearer {firebaseIdToken}
+alt 토큰 인증 실패 시
+  App -> Firebase: 재발급 시도
+  alt 재발급 토큰 만료 시
+    Firebase --> App: 갱신실패
+    App --> Parent: 로그인 화면 출력
+    Parent -> App: OAuth2 로그인
+    App -> Firebase: 로그인 처리
+    Firebase --> App: firebaseIdToken
+  end
+  App -> Server: POST /api/v1/auth/firebase/authorize 로그인 \nAuthorization: Bearer {firebaseIdToken}
+end
+alt 로그인 실패 시 회원가입
+  Server --> App: USER_NOT_FOUND
+  App --> Parent: 닉네임 입력(회원가입) 페이지 출력
+  loop 중복 아닐 때 까지
+    Parent -> App: 닉네임 입력 및 제출
+    App -> Server: GET /api/v1/users/check-duplicate?nickname= 중복체크
+    alt 중복이면
+      Server --> App: USER_DUPLICATED
+      App--> Parent: 닉네임 중복 에러 표시
+    else 중복 아니면
+      Server --> App: 200 OK
+    end
+  end
+  App --> Parent: 약관 동의 바텀시트 출력
+  Parent -> App: 동의 및 제출
+  App -> Server: POST /api/v1/users 회원가입 \nAuthorization: Bearer {firebaseIdToken} \n {nickname, agreements: [{name, agreed}]}
+  Server --> App: 201 Created
+  App -> Server: POST /api/v1/auth/firebase/authorize 로그인 \nAuthorization: Bearer {firebaseIdToken}
+end
+Server --> App: 200 OK
+App -> App: 토큰 secure storage 및 상태 저장
+App --> Parent: 메인화면 출력
+@enduml
