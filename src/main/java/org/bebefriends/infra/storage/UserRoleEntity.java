@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bebefriends.core.domain.user.UserRole;
@@ -29,6 +30,7 @@ class UserRoleEntity {
     @Getter
     @Embeddable
     @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+    @EqualsAndHashCode
     static class PK implements Serializable {
         @JoinColumn(nullable = false, name = "user_id")
         @ManyToOne(fetch = FetchType.LAZY)

@@ -42,6 +42,7 @@ class OAuth2UserEntity {
     @Getter
     @Embeddable
     @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+    @EqualsAndHashCode
     static class PK implements Serializable {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(nullable = false, name = "user_id")
