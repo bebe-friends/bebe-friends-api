@@ -9,22 +9,23 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class FirebaseConfiguration{
+class FirebaseConfiguration {
 
     @Bean
     fun firebaseApp(): FirebaseApp {
-        val options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
-            .build()
+        val options =
+            FirebaseOptions.builder().setCredentials(GoogleCredentials.getApplicationDefault())
+                .build()
         return FirebaseApp.initializeApp(options)
-    }
-    @Bean
-    fun firebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance(firebaseApp())
     }
 
     @Bean
-    fun firebaseMessaging():FirebaseMessaging {
-        return FirebaseMessaging.getInstance(firebaseApp())
+    fun firebaseAuth(firebaseApp: FirebaseApp): FirebaseAuth {
+        return FirebaseAuth.getInstance(firebaseApp)
+    }
+
+    @Bean
+    fun firebaseMessaging(firebaseApp: FirebaseApp): FirebaseMessaging {
+        return FirebaseMessaging.getInstance(firebaseApp)
     }
 }
