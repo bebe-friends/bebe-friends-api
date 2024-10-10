@@ -26,6 +26,9 @@ class UserRoleEntity {
     UserRoleEntity(UserEntity user, UserRole role) {
         pk = new PK(user, role);
     }
+    UserRoleEntity(UserRole role) {
+        this(null, role);
+    }
 
     @Getter
     @Embeddable

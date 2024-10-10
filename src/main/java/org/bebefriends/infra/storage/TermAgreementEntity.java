@@ -32,6 +32,10 @@ class TermAgreementEntity {
         this.agreed = agreement.getAgreed();
     }
 
+    TermAgreementEntity(TermAgreement agreement) {
+        this(null, agreement);
+    }
+
     @Getter
     @Embeddable
     @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)

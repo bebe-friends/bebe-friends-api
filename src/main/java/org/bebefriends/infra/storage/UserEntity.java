@@ -48,10 +48,13 @@ class UserEntity {
 
     UserEntity(UserInfo user, TermAgreements agreements, OAuth2UserInfo oAuth2UserInfo) {
         this.nickname = user.getNickname();
-        this.oAuth2Users.add(new OAuth2UserEntity(this, oAuth2UserInfo));
-        this.roles.add(new UserRoleEntity(this, UserRole.PARENT));
-        Set<TermAgreementEntity> agreementEntities = agreements.mapToSet(
-            agreement -> new TermAgreementEntity(this, agreement));
+        this.oAuth2Users.add(new OAuth2UserEntity(oAuth2UserInfo));
+        this.roles.add(new UserRoleEntity(UserRole.PARENT));
+        agreeForTerms(agreements);
+    }
+
+    private void agreeForTerms(TermAgreements agreements) {
+        Set<TermAgreementEntity> agreementEntities = agreements.mapToSet(TermAgreementEntity::new);
         this.termAgreements.addAll(agreementEntities);
     }
 
@@ -65,7 +68,9 @@ class UserEntity {
         return new User(new UserAuthentication(id, roles), new UserInfo(nickname), agreements);
     }
 
-    void addFcmToken(String fcmToken) {
+
+    void assignFcmToken(String fcmToken) {
         pushTokens.add(new UserPushTokenEntity(this, fcmToken));
     }
+
 }
