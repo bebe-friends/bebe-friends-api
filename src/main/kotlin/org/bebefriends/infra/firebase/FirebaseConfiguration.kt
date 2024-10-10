@@ -16,7 +16,11 @@ class FirebaseConfiguration {
         val options =
             FirebaseOptions.builder().setCredentials(GoogleCredentials.getApplicationDefault())
                 .build()
-        return FirebaseApp.initializeApp(options)
+        return if (isExists()) FirebaseApp.getInstance() else FirebaseApp.initializeApp(options)
+    }
+
+    private fun isExists(): Boolean {
+        return FirebaseApp.getApps() != null && FirebaseApp.getApps().isNotEmpty()
     }
 
     @Bean
