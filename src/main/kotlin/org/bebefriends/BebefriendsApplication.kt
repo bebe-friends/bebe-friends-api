@@ -1,4 +1,4 @@
-package org.bebefriends.api
+package org.bebefriends
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
