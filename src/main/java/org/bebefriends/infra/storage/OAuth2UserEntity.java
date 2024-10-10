@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import org.bebefriends.core.domain.user.OAuth2Provider;
 import org.bebefriends.core.domain.user.OAuth2UserInfo;
 
-@Entity(name = "oAuth2Users")
+@Entity(name = "oauth2_users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @EqualsAndHashCode(of = {"pk"})
@@ -37,6 +37,10 @@ class OAuth2UserEntity {
     }
     OAuth2UserEntity(UserEntity user, OAuth2UserInfo info) {
         this(user, info.getEmail(), info.getId(), info.getProvider());
+    }
+
+    OAuth2UserEntity(OAuth2UserInfo info) {
+        this(null, info);
     }
 
     @Getter

@@ -26,6 +26,9 @@ class UserPushTokenEntity {
     UserPushTokenEntity(UserEntity user, String fcmToken) {
         this.pk = new PK(user, fcmToken);
     }
+    UserPushTokenEntity(String fcmToken) {
+        this(null, fcmToken);
+    }
 
     @Getter
     @Embeddable

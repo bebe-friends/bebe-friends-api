@@ -26,7 +26,7 @@ public class UserRepository {
     @Transactional
     public void addFcmToken(UserAuthentication identifier, String fcmToken) {
         jpaRepository.findById(identifier.getId())
-                     .ifPresent((user) -> user.addFcmToken(fcmToken));
+                     .ifPresent((user) -> user.assignFcmToken(fcmToken));
     }
 
     public boolean isNicknameConflict(String nickname) {
